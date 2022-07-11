@@ -1,26 +1,28 @@
-import { useContext, useEffect, useState } from "react"
-import type { NextPage } from 'next'
 import Head from 'next/head'
 import styled from 'styled-components';
 
-import { LibraryContext } from "./_app"
+import supabase from "../utils/supabaseClient"
 import { HeroSlider } from "../components"
 import { GameList } from "../components/GameList"
 
-type LCProps = {
-  loading?: boolean
-  err?: string | null
-  list?: object[]
+type GameType = {
+  id: number
+  link: string
+  image: string
+  title: string
+  price: number
+  tags: string[]
+  platforms: string[]
+  genre: string
+}
+type HomeProps = {
+  featured: GameType[]
+  games: GameType[]
+  error: string
 }
 
-const Home: NextPage = () => {
-  const library: LCProps = useContext(LibraryContext)
-  const { loading, err, featured, list } = library
-
-
-  useEffect(() => {
-
-  }, [list, err])
+const Home = (props: HomeProps) => {
+  const { featured, games, error } = props
 
   return (
     <div className="page">
@@ -33,7 +35,7 @@ const Home: NextPage = () => {
       {featured.length && <HeroSlider featured={featured} />}
 
       <Main>
-        <GameList list={list} />
+        <GameList list={games} />
       </Main>
 
     </div>
@@ -41,6 +43,19 @@ const Home: NextPage = () => {
 }
 
 export default Home
+
+export async function getStaticProps() {
+  const { data, error } = await supabase.from<any>("steam").select("*")
+  const featured = data?.splice(0, 5)
+
+  return {
+    props: {
+      featured,
+      games: data,
+      error
+    }, // will be passed to the page component as props
+  }
+}
 
 const Main = styled.main`
   padding: 0 2rem 8rem;

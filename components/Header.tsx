@@ -23,7 +23,8 @@ const HeaderWrapper = styled.header`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 40px 20px;
+  padding-top: 40px;
+  padding-bottom: 40px;
 `
 const LogoWrapper = styled.div`
   margin: 0;
