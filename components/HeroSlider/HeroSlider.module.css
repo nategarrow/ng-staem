@@ -1,0 +1,25 @@
+.hero {
+  min-height: 50vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(var(--lightBlue) 4%, var(--background) 70%);
+}
+
+.slide {
+  border-radius: var(--border-radius);
+  background: var(--white);
+  padding: 0;
+  overflow: hidden;
+  transition: all 0.5s ease-in-out;
+}
+.slide.swiper-slide-active {
+  transform: scale(1.3);
+}
+
+.slide img {
+  display: block;
+  object-fit: contain;
+  width: 100%;
+  height: 100%;
+}
